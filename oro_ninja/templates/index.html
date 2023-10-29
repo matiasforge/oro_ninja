@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oro Ninja</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Oro: {{ session['gold'] }}</h1>
+
+    <form action="/process_money" method="post">
+        <input type="hidden" name="building" value="farm">
+        <input type="submit" value="Find Gold! (Earn 10-20)">
+    </form>
+
+    <form action="/process_money" method="post">
+        <input type="hidden" name="building" value="cave">
+        <input type="submit" value="Find Gold! (Earn 5-10)">
+    </form>
+
+    <form action="/process_money" method="post">
+        <input type="hidden" name="building" value="house">
+        <input type="submit" value="Find Gold! (Earn 2-5)">
+    </form>
+
+    <form action="/process_money" method="post">
+        <input type="hidden" name="building" value="casino">
+        <input type="submit" value="Find Gold! (Earn/Lose 50) - High risk!">
+    </form>
+
+    <form action="/reset" method="post">
+        <input type="submit" value="Restart Game">
+    </form>
+    <form action="/reset" method="post" {% if not (won or lost) %}style="display: none"{% endif %}>
+        <input type="submit" value="Restart Game">
+    </form>
+    <h2>Activities:</h2>
+    <ul>
+        {% for activity, is_positive in session['activities'] %}
+            <li style="color: {% if is_positive %} green {% else %} red {% endif %}">{{ activity }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
